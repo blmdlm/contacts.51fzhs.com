@@ -12,7 +12,7 @@
 <form action="<?php echo U('Admin/Search/specific');?>" method="post">
 	UserName: <input type="text" name="username" /> <br />
 	Highschool: <input type="text" name="highschool" /> <br />
-	highschool graduate: <input type="text" name="graduate" /> <br />
+	highschool graduate: <input type="text" name=graduation /> <br />
 	highschool class: <input type="text" name="class" /> <br />
 	<br/>
 	College: <input type="text" name="college" /> <br />
