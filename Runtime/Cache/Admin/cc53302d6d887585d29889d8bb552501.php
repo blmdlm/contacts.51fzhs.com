@@ -9,23 +9,68 @@
 <h1>Search Someone</h1>
 <hr>
 <h2>Specific Search</h2>
-<form action="<?php echo U('Admin/Search/specific');?>" method="post">
-	UserName: <input type="text" name="username" /> <br />
-	Highschool: <input type="text" name="highschool" /> <br />
-	highschool graduate: <input type="text" name=graduation /> <br />
-	highschool class: <input type="text" name="class" /> <br />
+<div >
+	UserName: <input type="text" id="username" /> <br />
+	Highschool: <input type="text" id="highschoolid" /> <br />
+	highschool graduate: <input type="text" id=graduation /> <br />
+	highschool class: <input type="text" id="class" /> <br />
 	<br/>
-	College: <input type="text" name="college" /> <br />
-	Major: <input type="text" name="major" /> <br />
+	College: <input type="text" id="college" /> <br />
+	Major: <input type="text" id="major" /> <br />
 	<br/>
-	Company: <input type="text" name="company" /> <br />
-	<input type="submit" value="search">
+	Company: <input type="text" id="company" /> <br />
+	<input  onclick="search()" type="button"  value="search">
 	
-</form>
+</div>
+
+<div id="result" >
 
 
+</div>
 
 
 </center>
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script>
+			function search(){
+			$.post("<?php echo U('Admin/Search/specific');?>",
+					{
+						username:$("#username").val(),
+						highschoolid:$("#highschoolid").val(),
+						graduation:$("#graduation").val(),
+						class:$("#class").val(),
+						college:$("#college").val(),
+						major:$("#major").val(),
+						company:$("#company").val(),
+						
+					},
+					function(data){
+						if(data!=null){
+							var html="";
+							$.each(data,function(index,item){
+								html+='<div  id="people" onclick="showDetail('+item.id+')" >'+item.id+'</div><br/>'
+								
+							});
+
+							$("#result").html(html);
+						}
+					}
+
+					);
+			$("#result").fadeIn();
+			
+		};
+
+
+		function showDetail(id){
+
+			location.href="<?php echo U('Admin/Detail/index');?>?id="+id;
+		}
+		
+
+</script>
+
+
 </body>
 </html>
