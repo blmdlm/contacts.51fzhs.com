@@ -4,60 +4,155 @@ use Think\Controller;
 
 class SearchController extends  CommonController{
 	public function index(){
+		
 		$this->display();
 	}
+	
 
-	public function specific(){
-		if (!IS_POST){
-			$this->error('page not found');
+	
+	private function handle($ids,$temp){
+		if ($ids!=null){
+			$temp=$this->mergeIds($ids, $temp);
+			$temp=$this->isEmpty($temp);
 		}
-		$username=I('username',null);
+		return $temp;
+	}
+	
+	private function mergeIds($ids,$temp){
+		
+		$ids=array_column($ids,'id');
+	
+		if ($temp==null){
+			$temp=$ids;
+		}else {
+			$temp=array_intersect($temp,$ids);
+		}
+		
+	
+		
+		return $temp;
+	}
+	
+	private function isEmpty($temp){
+		if ($temp==null){
+			$this->ajaxReturn("No result");
+		}else{
+			return $temp;
+		}
+	}
+	
+	
+	public function specific(){
+// 		if (!IS_POST){
+// 			$this->error('page not found');
+// 		}
+		
+		
+
+		$name=I('name',null);
 		$highschoolid=I('highschoolid',null);
+		$gender=I('gender',null);
+		$phone=I('phone',null);
+		$qq=I('qq',null);
+		$email=I('email',null);
 		$graduation=I('graduation',null);
 		$class=I('class',null);
-
+		
 		$college=I('college',null);
+		$academy=I('academy',null);
 		$major=I('major',null);
-
+		$type=I('type',null);
+		
 		$company=I('company',null);
-
 		
 		
-		
-		
-		if ($username!=null){//
-			$userModel=M('user');
-			$map['name']=array('LIKE','%'.$username.'%');
-			$userids=$userModel->field('id')->where($map)->select();
-			if ($userids==null){ 
-				$this->ajaxReturn(null);
-			}
-		}
-
-		
-		
-		
-		if ($userids!=null||$highschoolid!=null||$graduation!=null||$class!=null){ //some input for basic	
-			if ($userids!=null){  //input for name and find users ,else no input for name
-
-				$map01['userid']=array('IN',array_column($userids,'id'));
-			}
-			if ($highschoolid!=null){
-				$map01['highschoolid']=$highschoolid;
-			}
-			if($graduation!=null){
-				$map01['graduation']=$graduation;
-			}
-			if ($class!=null){
-				$map01['class']=$class;
-			}
-			$seniorModel=M('senior');
-			$ids01=$seniorModel->field('id as seniorid')->where($map01)->select();
+		$user=M('user');
+	
+		if ($name!=null){
+			$map=null;
+			$map['name']=array('LIKE','%'.$name.'%');
+			$ids00=$user->field('id')->where($map)->select();
 			
-			if ($ids01==null){
-				$this->ajaxReturn(null);
-			}	
 		}
+		if ($highschoolid!=null){
+			$map=null;
+			$map['highschoolid']=$highschoolid;
+			$ids01=$user->field('id')->where($map)->select();
+		}
+		if ($gender!=null){
+			$map=null;
+			$map['gender']=$gender;
+			$ids02=$user->field('id')->where($map)->select();
+		}
+		if ($phone!=null){
+			$map['phone']=$phone;
+			$ids03=$user->field('id')->where($map)->select();
+		}
+		if ($qq!=null){
+			$map=null;
+			$map['qq']=$qq;
+			$ids04=$user->field('id')->where($map)->select();
+		}
+		if ($graduation!=null){
+			$map=null;
+			$map['graduation']=mktime ( null, null, null, null, null,$graduation);
+			$ids05=$user->field('id')->where($map)->select();
+		}
+		if ($class!=null){
+			$map=null;
+			$map['class']=array('LIKE','%'.$class.'%');
+			$ids06=$user->field('id')->where($map)->select();
+		}
+		
+
+		$temp1=null;
+		$temp1=$this->handle($ids00, $temp1);
+		$temp1=$this->handle($ids01, $temp1);
+		$temp1=$this->handle($ids02, $temp1);
+		$temp1=$this->handle($ids03, $temp1);
+		$temp1=$this->handle($ids04, $temp1);
+		$temp1=$this->handle($ids05, $temp1);
+		$temp1=$this->handle($ids06, $temp1);
+		
+		//如果最后一个还是null  那么temp
+		
+		
+		if ($college!=null){
+			$map=null;
+			$map['college']=array('LIKE','%'.$college.'%');
+			$ids07=$user->field('userid as id')->where($map)->select();	
+		}
+		if ($academy!=null){
+			$map=null;
+			$map['academy']=array('LIKE','%'.$academy.'%');
+			$ids08=$user->field('userid as id')->where($map)->select();	
+		}
+		if ($major!=null){
+			$map=null;
+			$map['major']=array('LIKE','%'.$major.'%');
+			$ids09=$user->field('userid as id')->where($map)->select();	
+		}
+		if ($type!=null){
+			$map=null;
+			$map['type']=$type;
+			$ids09=$user->field('userid as id')->where($map)->select();	
+		}
+		
+		$temp2=null;
+		$temp2=$this->handle($ids00, $temp2);
+		
+		var_dump($temp);
+		die();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//搜索基本信息		
 		
 
 		
@@ -129,6 +224,7 @@ class SearchController extends  CommonController{
 			}
 			
 
+		
 			
 			$this->ajaxReturn($result);
 						

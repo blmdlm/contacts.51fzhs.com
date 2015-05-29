@@ -16,7 +16,8 @@ class LoginController extends Controller{
 		$admin=M('admin')->where(array('name' => $name))->find();
 
 		if (!admin||$admin['password']!=$pwd) {
-			$this->error('user is not exist or password is wrong');
+			return "user is not exist or password is wrong";
+// 			$this->error('user is not exist or password is wrong');
 		}
 		session('aid',$admin['id']);
 		session('aname',$admin['name']);

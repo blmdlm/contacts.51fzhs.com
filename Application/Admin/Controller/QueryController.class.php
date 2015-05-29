@@ -4,47 +4,69 @@ use Think\Controller;
 
 class QueryController extends  CommonController{
 
-	function basic(){
+	function userBasicInfo(){
 
-		if (!IS_POST){
-			$this->error('page not found');
-		};
+
+		$id=I('id',-1);
+		$user=M('user');
+		$result=$user->where(array('id'=>$id))->find();
+		$this->ajaxReturn($result);
+	}
+
+	function userAllCollegeInfo(){
+		$id=I('id',-1);
+		$undergraduate=M('undergraduate');
+		$result=$undergraduate->where(array('userid'=>$id))->select();
+		$this->ajaxReturn($result);
+	}
+	
+	function userAllCompanyInfo(){
+		$id=I('id',-1);
+		$graduate=M('graduate');
+		$result=$graduate->where(array('userid'=>$id))->select();
+		$this->ajaxReturn($result);
+	}
+	
+	function userDetailInfo(){
+		$id=I('id',-1);
+		$user=M('user');
+		$result["basic"]=$user->where(array('id'=>$id))->find();
+		$undergraduate=M('undergraduate');
+		$result["colleges"]=$undergraduate->where(array('userid'=>$id))->select();
+		$graduate=M('graduate');
+		$result["companys"]=$graduate->where(array('userid'=>$id))->select();
+		$this->ajaxReturn($result);
+	}
+	
+	function collegeInfo(){
+// 		if (!IS_POST){
+// 			$this->error('page not found');
+// 		};
 			
 
-		$seniorid=I('id',null);
-		$seniorModel=M('senior');
-		$userModel=M('user');
-		$highschoolModel=M('highschool');
-		$result=$seniorModel->find($seniorid);
-		$result['user']=$userModel->find($result['userid']);
-		$result['highschool']=$highschoolModel->find($result['highschoolid']);
-
-		$this->ajaxReturn($result);
-	}
-
-	function college(){
-		if (!IS_POST){
-			$this->error('page not found');
-		};
-			
-
-		$seniorid=I('id',null);
-		$undergraduateModel=M('undergraduate');
-		$result=$undergraduateModel->where(array('seniorid'=>$seniorid))->select();
+		$id=I('id',-1);
+		$undergraduate=M('undergraduate');
+		$result=$undergraduate->where(array('id'=>$id))->find();
 		$this->ajaxReturn($result);
 	}
 	
-	function company(){
-		if (!IS_POST){
-			$this->error('page not found');
-		};
-		$seniorid=I('id',null);
-		$graduateModel=M('graduate');
-		$result=$graduateModel->where(array('seniorid'=>$seniorid))->select();
+	function companyInfo(){
+
+
+		$id=I('id',-1);
+		$graduate=M('graduate');
+		$result=$graduate->where(array('id'=>$id))->find();
 		$this->ajaxReturn($result);
 	}
 	
-	
+	function allHighSchools(){
+// 		if (!IS_POST){
+// 			$this->error('page not found');
+// 		};
+		$highschool=M('highschool');
+		$result=$highschool->select();
+		$this->ajaxReturn($result);
+	}
 	
 	
 }

@@ -6,20 +6,40 @@
 </head>
 <body>
 <center>
-<h1>Search Someone</h1>
+<h1>搜索用户</h1>
 <hr>
-<h2>Specific Search</h2>
+<h2>精确搜索</h2>
 <div >
-	UserName: <input type="text" id="username" /> <br />
-	Highschool: <input type="text" id="highschoolid" /> <br />
-	highschool graduate: <input type="text" id=graduation /> <br />
-	highschool class: <input type="text" id="class" /> <br />
-	<br/>
-	College: <input type="text" id="college" /> <br />
-	Major: <input type="text" id="major" /> <br />
-	<br/>
-	Company: <input type="text" id="company" /> <br />
-	<input  onclick="search()" type="button"  value="search">
+<center>
+<form  action="{:U('Admin/Search/specific')}">
+<h3>用户基本信息</h3>
+Name: <input type="text" name="name"  /> <br />
+highschoolid: <input type="text" name="highschoolid"  /> <br />
+gender: <input type="text" name="gender"  /> <br />
+phone: <input type="text" name="phone"  /> <br />
+qq: <input type="text" name="qq"  /> <br />
+email: <input type="text" name="email"  /> <br />
+graduation(year): <input type="text" name="graduation"  /> <br />
+class: <input type="text" name="class"  /> <br />
+
+
+
+<h3>College info</h3>
+
+College*: <input type="text" name="college"  /><br />
+Academy: <input type="text" name="academy" /> <br />
+Major: <input type="text" name="major" /> <br />
+type*: <input type="text" name="type" /> <br />
+
+
+
+<h3>Company info</h3>
+
+Company*: <input type="text" name="company"  /><br />
+
+<input type="submit" value="submit"/>
+</form>
+</center>
 	
 </div>
 
@@ -34,6 +54,7 @@
 <script src="http://code.jquery.com/jquery.js"></script>
 <script>
 			function search(){
+				alert("asdad");
 			$.post("{:U('Admin/Search/specific')}",
 					{
 						username:$("#username").val(),
