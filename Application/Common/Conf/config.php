@@ -3,6 +3,7 @@ return array(
 	//'配置项'=>'配置值'
 	'DEFAULT_MODULE' => 'Home',
 	'URL_CASE_INSENSITIVE' => true,           //URL不区分大小写
+	'URL_MODEL' => '2',              
 	    /* 数据库设置 */
     'DB_TYPE'               =>  'mysql',     // 数据库类型
     'DB_HOST'               =>  'localhost', // 服务器地址
